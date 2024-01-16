@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  php:
+    build:
+      dockerfile: ./docker/php/Dockerfile
+    volumes:
+      - ./app:/var/www/html
+    environment:
+      - DB_CONNECTION=${DB_CONNECTION}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8088:80"
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./app:/var/www/html
+    links:
+      - php
+  db:
+    image: mysql:8.0
+    command: [--default-authentication-plugin=mysql_native_password]
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3388:3306"
+    platform: linux/amd64
