@@ -2,8 +2,7 @@ version: "3"
 
 services:
   php:
-    build:
-      dockerfile: ./docker/php/Dockerfile
+    build: ./docker/php/
     volumes:
       - ./app:/var/www/html
     environment:
