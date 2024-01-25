@@ -192,7 +192,7 @@
     }
 
    async function updateData() {
-       return fetch(deleteUrl.value, {
+       return fetch(updateUrl.value, {
            method: 'PATCH',
            headers: {
                "Content-Type": "application/json",
@@ -267,6 +267,7 @@
         thead = document.getElementById('thead');
         inputUrl = document.getElementById('inputUrl');
         deleteUrl = document.getElementById('deleteUrl');
+        updateUrl = document.getElementById('updateUrl');
         liveToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('liveToast'));
         toastData = document.getElementById('toastData');
         myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
