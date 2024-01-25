@@ -32,10 +32,11 @@ class ClientController extends Controller
     }
     public function update(UpdateClientRequest $request, Client $client): Client
     {
+
         $input = $request->validated();
         $client =  Client::findOrFail($client->id);
         $client->update($input);
-        return $client->fresh();
+        return $client->refresh();
     }
 
     public function delete(Client $client)

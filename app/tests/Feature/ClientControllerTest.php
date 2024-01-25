@@ -38,4 +38,16 @@ class ClientControllerTest extends TestCase
     }
 
 
+    public function testClientUpdateMethod(): void
+    {
+        $client = Client::factory()->create();
+        $this->assertDatabaseHas(Client::class, ['id' => $client->id]);
+        $response = $this->patchJson(route('clients.update', ['client' => $client->id]), [
+            'first_name' => 'test',
+            'phone' => '79246160179'
+        ]);
+        $this->assertDatabaseHas(Client::class,['id' => $client->id, 'first_name' => 'test', 'phone' => '79246160179'] );
+        $response->assertStatus(200);
+    }
+
 }

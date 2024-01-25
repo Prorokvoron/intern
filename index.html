@@ -47,7 +47,101 @@
             </tbody>
         </table>
 
-        <button type="button" class="btn btn-primary btn-lg offset-3 col-3 margin-auto mt-3" onclick="getData()">Get data</button>
+        <button type="button" class="btn btn-primary btn-lg offset-2 col-3 margin-auto mt-3" onclick="getData()">Get data</button>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-danger btn-lg offset-1 col-3 margin-auto mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Delete element
+        </button>
+
+        <button type="button" class="btn btn-success btn-lg offset-2 col-3 margin-auto mt-4" data-bs-toggle="modal" data-bs-target="#updateModal">
+            Update element
+        </button>
+
+        <button type="button" class="btn btn-info btn-lg offset-1 col-3 margin-auto mt-4" data-bs-toggle="modal" data-bs-target="#updateModal">
+            Create element
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete element</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group mb-3 col-10 mt-4 mb-4">
+                            <span class="input-group-text" id="basic-addon2">URL</span>
+                            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1"  id="deleteUrl" value="http://localhost:8088/api/v1/clients/1">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteData()">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateModalLabel">Update element</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="input-group mb-3 col-10 mt-4 mb-4">
+                            <span class="input-group-text" id="basic-addon3">URL</span>
+                            <input type="text" class="form-control" placeholder="Url" aria-label="Username" aria-describedby="basic-addon1"  id="updateUrl" value="http://localhost:8088/api/v1/clients/1">
+                        </div>
+
+                        <div class="input-group mb-3 col-10 mt-4 mb-4">
+                            <span class="input-group-text" id="basic-addon4">First name</span>
+                            <input type="text" class="form-control" placeholder="first_name" aria-label="Username" aria-describedby="basic-addon1"  id="first_name" >
+                        </div>
+
+                        <div class="input-group mb-3 col-10 mt-4 mb-4">
+                            <span class="input-group-text" id="basic-addon5">Last name</span>
+                            <input type="text" class="form-control" placeholder="first_name" aria-label="Username" aria-describedby="basic-addon1"  id="last_name" >
+                        </div>
+
+                        <div class="input-group mb-3 col-10 mt-4 mb-4">
+                            <span class="input-group-text" id="basic-addon6">Middle name</span>
+                            <input type="text" class="form-control" placeholder="first_name" aria-label="Username" aria-describedby="basic-addon1"  id="middle_name" >
+                        </div>
+
+                        <div class="input-group mb-3 col-10 mt-4 mb-4">
+                            <span class="input-group-text" id="basic-addon7">Phone</span>
+                            <input type="text" class="form-control" placeholder="Phone" aria-label="Username" aria-describedby="basic-addon1"  id="phone" >
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" onclick="updateData()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="position-fixed bottom-0 end-0 p-3 position-absolute" style="z-index: 11">
+            <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" style="position:absolute">
+                <div class="toast-header">
+
+                    <strong class="me-auto">Bootstrap</strong>
+                    <small>11 mins ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="toastData">
+                    Hello, world! This is a toast message.
+                </div>
+            </div>
+        </div>
 
 
     </div>
@@ -61,7 +155,11 @@
     var tbody;
     var thead;
     var inputUrl;
-
+    var deleteUrl;
+    var updateUrl;
+    var liveToast;
+    var toastData;
+    var myModal;
 
     async function getData() {
         thead.innerHTML = '';
@@ -70,11 +168,53 @@
             .then(response => response.json())
             .then(function(clients){
                 data=clients;
-                getListContent(data)
+                getListContent(data);
             })
-            .catch(e => console.log('Fetch Error: ', e)
+            .catch(e => {
+                console.log('Fetch Error: ', e);
+                toastData.innerHTML = e.message;
+                liveToast.show();
+            }
             );
     }
+
+
+    async function deleteData() {
+        return fetch(deleteUrl.value, {method: 'DELETE'}).then(()=>{
+            getData();
+        })
+            .catch((e)=> {
+                myModal.close();
+                console.log('Fetch Delete Error: ', e.message);
+                toastData.innerHTML = e.message;
+                liveToast.show();
+            });
+    }
+
+   async function updateData() {
+       return fetch(deleteUrl.value, {
+           method: 'PATCH',
+           headers: {
+               "Content-Type": "application/json",
+               // 'Content-Type': 'application/x-www-form-urlencoded',
+           },
+           body:JSON.stringify({
+               first_name: document.getElementById('first_name').value ?? null,
+               last_name: document.getElementById('last_name').value ?? null,
+               middle_name: document.getElementById('middle_name').value ?? null,
+               phone: document.getElementById('phone').value ?? null,
+           })}
+       ).then(()=>{
+           getData();
+       })
+           .catch((e)=> {
+               myModal.close();
+               console.log('Fetch Delete Error: ', e.message);
+               toastData.innerHTML = e.message;
+               liveToast.show();
+           });
+   }
+
 
 
     function getListContent(data) {
@@ -126,6 +266,12 @@
         tbody = document.getElementById('tbody');
         thead = document.getElementById('thead');
         inputUrl = document.getElementById('inputUrl');
+        deleteUrl = document.getElementById('deleteUrl');
+        liveToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('liveToast'));
+        toastData = document.getElementById('toastData');
+        myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+            keyboard: true
+        });
 
         thead.innerHTML = '';
         tbody.innerHTML = '';
@@ -137,7 +283,6 @@
 
 
     });
-
 
 </script>
 </body>

@@ -16,9 +16,10 @@ class ClientIndexResourceItem extends JsonResource
     {
         return [
             'id' => $this->resource->id,
-            'first_name' => $this->resource->firts_name,
+            'first_name' => $this->resource->first_name,
             'last_name' => $this->resource->last_name,
             'middle_name' => $this->resource->middle_name,
+            'phone' => $this->resource->phone
         ];
     }
 }
