@@ -8,15 +8,18 @@ use App\Http\Resources\ClientIndexResourceCollection;
 use App\Http\Resources\ClientResourceShow;
 use App\Models\Client;
 
+use App\Repositories\ClientRepository;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
+
     public function store(ClientRequest $clientRequest)
     {
         $input = $clientRequest->validated();
-        $client = new Client($input);
+        $client = new Client($input); // новая запись в модели
         $client->save();
         return $client;
     }
@@ -26,9 +29,16 @@ class ClientController extends Controller
            return new ClientResourceShow($client);
     }
 
-    public function index(): ClientIndexResourceCollection
+    public function index()
     {
-        return ClientIndexResourceCollection::make(Client::all());
+//        dump(DB::table('clients')->get());
+//        dump((new ClientRepository())->setTable('clients')->index());
+//        return DB::table('clients')->get();
+//        return new ClientIndexResourceCollection(
+//            (new ClientRepository())->setTable('clients')->index()
+//        );
+
+
     }
     public function update(UpdateClientRequest $request, Client $client): Client
     {

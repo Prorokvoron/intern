@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Client;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PostFactory extends Factory
@@ -19,7 +20,8 @@ class PostFactory extends Factory
             'family_name' =>$this->faker->text(191),
             'birthData' =>$this->faker->date(),
             'phone' =>$this->faker->numerify("7924#######"),
-            'mail' =>$this->faker->email
+            'mail' =>$this->faker->email,
+            'client_id'=>Client::inRandomOrder()->first()->id
         ];
     }
 }

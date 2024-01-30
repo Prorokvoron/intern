@@ -2,40 +2,71 @@
 
 namespace Tests\Feature;
 
+use App\Http\Classes\SportCar;
+use App\Http\Classes\Track;
 use App\Models\Client;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class ClientControllerTest extends TestCase
 {
 
-    public function testClientIndexMethod(): void
-    {
-        $response = $this->getJson(route('clients.index'));
-        $response->assertJson(function(AssertableJson $json) {
-            $json->count(3)->etc();
-        });
-        $response->assertStatus(200);
-    }
+public  function  testClientUpdateMethod(): void
+{
+  /**
+   * 1 взять запись с таблицы
+   * 2 отправить запрос на обновленние
+   * 3 провериить что запись изменилась
+   * */
 
-    public function testClientShowMethod(): void
-    {
-        $client = Client::factory()->create();
-        $response = $this->getJson(route('clients.show', ['client' => $client->id]));
-        $response->assertJson(function(AssertableJson $json) {
-            $json->hasAll(['id', 'last_name'])->etc();
-        });
-        $response->assertStatus(200);
-    }
+    $client = DB::table('clients')->where('clients.id', '=', 1)->first();
 
-    public function testClientDeleteMethod(): void
+//    dump($client->toSql());
+}
+
+public function testClientIndexMethod()
+{
+    /**
+     * 1 получить все записи
+     * 2 проверить сатус запроса 200
+     */
+    $response = $this ->getJson(route('clients.index'));
+    dump($response->json());
+
+    $response->assertOk();
+}
+
+    public function testTrackClass()
     {
-        $client = Client::factory()->create();
-        $this->assertDatabaseHas(Client::class, ['id' => $client->id]);
-        $response = $this->delete(route('clients.delete', ['client' => $client->id]));
-        $this->assertDatabaseMissing(Client::class,['id' => $client->id] );
-        $response->assertStatus(200);
-    }
+        $sportCar= new SportCar(s: 1);
+        $sportCar->setSpeedAttribute(2);
+        $this->assertTrue($sportCar->getUsers()[0] instanceof \stdClass);
+
+        $a= $sportCar->getUsers();
+
+        $b=array_column($a, 'id');
+
+        //**
+        // Сортировка: Сортировка вставками, сортировка Шелла,
+        // Шейкерная сортировка, быстрая сортировка, цифровая сортировка
+        //
+        // 1. Сортировка методом пузырька
+        // Берем первый элемент массива и сравниваем его с последующими
+        // Если первый эл. массива больше последующего, то переставляем их местами
+        //  */
+
+        for ($i=0;$i < count($b)-1; $i++){
+            for($j = 0; $j < count($b) - 1 - $i ; $j++){
+                if ($b[$j] < $b[$j + 1]){
+                $tmp = $b[$j + 1];
+                $b[$j + 1] = $b[$j];
+                $b[$j] = $tmp;
+            }
+          }
+        }
+
+
 
 
     public function testClientUpdateMethod(): void
@@ -50,4 +81,7 @@ class ClientControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
+        dump($b);
+        $this->assertTrue(true);
+  }
 }

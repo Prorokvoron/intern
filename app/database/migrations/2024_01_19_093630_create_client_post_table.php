@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('trees', function (Blueprint $table) {
+        Schema::create('client_post', function (Blueprint $table) {
             $table->id();
-            $table->json('region');
-            $table->text('type');
-            $table->timestamp('action_at');
-            $table->text('text');
-            $table->foreignId('post_id');
+            $table->integer('client_id');
+            $table->integer('post_id');
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('trees');
+        Schema::dropIfExists('client_post');
     }
 };

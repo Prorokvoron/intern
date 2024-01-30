@@ -44,7 +44,7 @@ Route::prefix('v1')->group(function(){
 
         Route::get('/{client}', [ClientController::class, 'show'])->name('clients.show');;
 
-        Route::patch('/{client}', [ClientController::class,'update' ])->name('clients.update');
+        Route::patch('/{client}', [ClientController::class,'update' ]);
 
         Route::delete('/{client}',[ClientController::class,'delete'])->name('clients.delete');
     });

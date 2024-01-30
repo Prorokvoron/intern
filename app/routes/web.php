@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,3 +20,5 @@ Route::get('/', function () {
 Route::get('/1', function () {
     return '11111111';
 });
+
+Route::get('/users', [UserController::class, 'index']);

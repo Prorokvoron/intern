@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Client;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ClientPhoneFactory extends Factory
@@ -16,7 +17,7 @@ class ClientPhoneFactory extends Factory
         return [
            'phone' => $this->faker->phoneNumber(),
             'comment' => $this->faker->text(10),
-            'client_id' =>1
+            'client_id' => Client::inRandomOrder()->first()->id
         ];
     }
 }

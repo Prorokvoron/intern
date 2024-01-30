@@ -17,7 +17,8 @@ class ClientResourceShow extends JsonResource
     {
         return [
             'id' => $this->resource->id,
-            'last_name' => $this->resource->last_name
+            'last_name' => $this->resource->last_name,
+            'phones' => $this->resource->phones
         ];
     }
 }

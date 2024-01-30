@@ -12,6 +12,6 @@ class TreeSeeder extends Seeder
      */
     public function run(): void
     {
-      Tree::factory()->count(3)->create();
+      Tree::factory()->count(10)->create();
     }
 }

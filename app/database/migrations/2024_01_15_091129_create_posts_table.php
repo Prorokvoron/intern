@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('birthData');
             $table->string('phone');
             $table->string('mail');
+            $table->foreignId('client_id');
             $table->timestamps();
         });
     }
