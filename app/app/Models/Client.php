@@ -91,25 +91,22 @@ class Client extends Model
     {
         return $this->hasMany(ClientPhone::class, 'client_id', 'id');
     }
-
     public function emails(): HasMany
     {
-        return $this->hasMany(ClientEmail::class, 'client_id', 'id');
+        return $this->hasMany(ClientEmail::class, 'client_id','id');
     }
-
     public function cards(): HasMany
     {
-        return $this->hasMany(Card::class, 'client_id', 'id');
+        return $this->hasMany(Card::class,'client_id','id');
     }
-
     public function task(): HasMany
     {
-        return $this->hasMany(Task::class, 'client_id', 'id');
+        return $this->hasMany(Task::class,'client_id','id');
     }
 
     public function cardsActive(): HasMany
     {
-        return $this->cards()->where('status_id', Card::CARD_STATUS_ACTIVE);
+        return $this->cards()->where('status_id',Card::CARD_STATUS_ACTIVE);
     }
 
     public function getAllPhones(): array
@@ -125,10 +122,13 @@ class Client extends Model
     {
         $emails = [$this->email];
         foreach ($this->emails as $clientEmail) {
-            $emails[] = $clientEmail->email;
+             $emails[] = $clientEmail->email;
         }
         return $emails;
     }
+
+
+
 
 
 }
