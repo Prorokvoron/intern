@@ -6,6 +6,7 @@ use Database\Factories\ClientEmailFactory;
 use Faker\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\ClientEmail
@@ -31,9 +32,17 @@ use Illuminate\Database\Eloquent\Model;
 class ClientEmail extends Model
 {
     use HasFactory;
-    protected $fillable = ['email', 'comment', 'client_id'];
+    protected $table = "client_emails";
+    protected $fillable = [
+        'email',
+        'comment',
+        'client_id'];
     protected static function newFactory(): ClientEmailFactory|Factory
     {
         return ClientEmailFactory::new();
+    }
+    public function client():BelongsTo
+    {
+          return $this->belongsTo(Client::class);
     }
 }

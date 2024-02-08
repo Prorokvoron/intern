@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('client_emails', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->nullable();
+            $table->string('email');
             $table->foreignId('client_id');
             $table->string('comment');
             $table->timestamps();

@@ -24,7 +24,7 @@ class ClientFactory extends Factory
             'telegram' => $this->faker->text(),
             'phone' => $this->faker->phoneNumber,
             'phone_comment' => $this->faker->text(),
-            'email' => $this->faker->text(),
+            'email' => $this->faker->email(),
             'email_comment' => $this->faker->text,
             'address' => $this->faker->text(),
             'country_code' => $this->faker->countryCode(),

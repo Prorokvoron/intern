@@ -16,7 +16,7 @@ class TreeController extends Controller
     public function store(TreeRequest $treeRequest)
     {
         $input = $treeRequest->validated();
-        $client = new Client($input);
+        $client = new Tree($input);
         $client->save();
         return $client;
     }
@@ -33,13 +33,14 @@ class TreeController extends Controller
     public function update(UpdateTreeRequest $request, Tree $tree):Tree
     {
         $input = $request->validated();
-        $client =  Tree::findOrFail($tree->id);
-        $client->update($input);
-        return $client->fresh();
+        $tree =  Tree::findOrFail($tree->id);
+        $tree->update($input);
+        return $tree->fresh();
     }
 
     public function delete(Client $tree)
     {
        return Client::findOrFail($tree->id)->delete();
     }
+
 }

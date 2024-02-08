@@ -89,6 +89,46 @@ class Client extends Model
      */
     public function phones(): HasMany
     {
-     return  $this->hasMany(ClientPhone::class,'client_id', 'id');
+        return $this->hasMany(ClientPhone::class, 'client_id', 'id');
     }
+
+    public function emails(): HasMany
+    {
+        return $this->hasMany(ClientEmail::class, 'client_id', 'id');
+    }
+
+    public function cards(): HasMany
+    {
+        return $this->hasMany(Card::class, 'client_id', 'id');
+    }
+
+    public function task(): HasMany
+    {
+        return $this->hasMany(Task::class, 'client_id', 'id');
+    }
+
+    public function cardsActive(): HasMany
+    {
+        return $this->cards()->where('status_id', Card::CARD_STATUS_ACTIVE);
+    }
+
+    public function getAllPhones(): array
+    {
+        $phones = [$this->phone];
+        foreach ($this->phones as $clientPhone) {
+            $phones[] = $clientPhone->phone;
+        }
+        return $phones;
+    }
+
+    public function getAllEmails(): array
+    {
+        $emails = [$this->email];
+        foreach ($this->emails as $clientEmail) {
+            $emails[] = $clientEmail->email;
+        }
+        return $emails;
+    }
+
+
 }

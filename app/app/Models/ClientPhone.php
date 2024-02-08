@@ -35,7 +35,11 @@ class ClientPhone extends Model
     use HasFactory;
 
     protected $table = "client_phones";
-    protected $fillable = ['client_id', 'phone', 'comment'];
+    protected $fillable = [
+        'client_id',
+        'phone',
+        'comment'
+    ];
 
 
     protected static function newFactory(): ClientPhoneFactory|Factory
@@ -43,9 +47,6 @@ class ClientPhone extends Model
         return ClientPhoneFactory::new();
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function client():BelongsTo
     {
         return $this->belongsTo(Client::class);

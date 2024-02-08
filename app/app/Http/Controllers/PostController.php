@@ -8,12 +8,6 @@ use App\Models\Post;
 use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller {
-    public function index():PostIndexResourceCollection
-    {
-        $select = DB::table('posts')->select('*');
-        dump($select->toRawSql());
-       return new PostIndexResourceCollection($select->get());
-    }
 
     public function delete(Post $post)
     {
@@ -22,7 +16,7 @@ class PostController extends Controller {
 
     public function show()
     {
-
+       return DB::table('posts')->get();
     }
 
     public function update(UpdatePostRequest $request, Post $post)
@@ -33,8 +27,8 @@ class PostController extends Controller {
         ->update($input);
     }
 
-    public function store()
+    public function index(Post $post)
     {
-
+       return DB::table('posts')->where('id','=',$post->id)->first();
     }
 }

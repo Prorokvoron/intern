@@ -8,17 +8,14 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class ClientResourceShow extends JsonResource
 {
     public static $wrap = false;
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
+
     public function toArray(Request $request): array
     {
         return [
             'id' => $this->resource->id,
             'last_name' => $this->resource->last_name,
-            'phones' => $this->resource->phones
+           'phone' => $this->resource->phone,
+            'emails' => $this->resource->email
         ];
     }
 }

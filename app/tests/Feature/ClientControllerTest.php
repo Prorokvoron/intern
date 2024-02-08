@@ -12,7 +12,7 @@ use Tests\TestCase;
 class ClientControllerTest extends TestCase
 {
 
-public  function  testClientUpdateMethod(): void
+    public  function  testClientUpdateMethod(): void
 {
   /**
    * 1 взять запись с таблицы
@@ -69,19 +69,49 @@ public function testClientIndexMethod()
 
 
 
-    public function testClientUpdateMethod(): void
+//    public function testClientUpdateMethod(): void
+//    {
+//        $client = Client::factory()->create();
+//        $this->assertDatabaseHas(Client::class, ['id' => $client->id]);
+//        $response = $this->patchJson(route('clients.update', ['client' => $client->id]), [
+//            'first_name' => 'test',
+//            'phone' => '79246160179'
+//        ]);
+//        $this->assertDatabaseHas(Client::class,['id' => $client->id, 'first_name' => 'test', 'phone' => '79246160179'] );
+//        $response->assertStatus(200);
+//    }
+
+
+
+  }
+  public function testClientControllerIndexMethod()
+  {
+     $response = $this->getJson(route('clients.index'));
+     $response->assertOk();
+     dump($response->json());
+  }
+
+    public function testClientControllerShowMethod()
     {
         $client = Client::factory()->create();
-        $this->assertDatabaseHas(Client::class, ['id' => $client->id]);
-        $response = $this->patchJson(route('clients.update', ['client' => $client->id]), [
-            'first_name' => 'test',
-            'phone' => '79246160179'
-        ]);
-        $this->assertDatabaseHas(Client::class,['id' => $client->id, 'first_name' => 'test', 'phone' => '79246160179'] );
-        $response->assertStatus(200);
-    }
-
-        dump($b);
-        $this->assertTrue(true);
+        $response = $this->getJson(route('clients.show', ['client' => $client->id]));
+        $response->assertOk();
+        dump($response->json());
   }
+  public function testClientControllerUpdateMethod()
+  {
+      $client = Client::factory()->create();
+      $response = $this->patchJson(route('clients.update',['client'=>$client->id]),
+      ['last_name'=>'Gig']
+      );
+      $response->assertOk();
+  }
+
+  //public function testClientControllerCreateMethod()
+  //{
+     // $client = Client::factory()->raw();
+      //$response = $this->patchJson(route('clients.creat'));
+
+  //}
+
 }

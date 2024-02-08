@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ClientEmailController;
 use App\Http\Controllers\ClientPhoneController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TreeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -44,7 +46,7 @@ Route::prefix('v1')->group(function(){
 
         Route::get('/{client}', [ClientController::class, 'show'])->name('clients.show');;
 
-        Route::patch('/{client}', [ClientController::class,'update' ]);
+        Route::patch('/{client}', [ClientController::class,'update' ])->name('clients.update');
 
         Route::delete('/{client}',[ClientController::class,'delete'])->name('clients.delete');
     });
@@ -67,15 +69,38 @@ Route::prefix('v1')->group(function(){
 
     Route::prefix('/posts')->group(function (){
 
-        Route::get('/',[PostController::class, 'index'])->name('posts.index');
+        //Route::get('/',[PostController::class, 'index'])->name('posts.index');
 
 //        Route::post('/',[TreeController::class, 'store']);
+        Route::get('/',[PostController::class,'index'])->name('post.index');
 //
-//        Route::get('/{tree}', [TreeController::class, 'show']);
+        Route::get('/{post}', [PostController::class, 'show'])->name('posts.show');
 //
         Route::put('/{post}',[PostController::class, 'update'])->name('posts.update');
 //
         Route::delete('/{post}',[PostController::class, 'delete'])->name('posts.delete');
+    });
+    Route::prefix('/client-emails')->group(function (){
+
+        Route::get ('/', [ClientEmailController::class, 'index']);//->name('client-emails.index');
+
+        Route::get('/{clientEmail}', [ClientEmailController::class, 'show']);//->name('client-emails.show');
+
+        Route::patch('/{clientEmail}', [ClientEmailController::class,'update']);//->name('client-emails.update');
+
+        Route::delete('/{clientEmail}',[ClientEmailController::class,'delete']);//->name('client-emails.delete');
+    });
+    Route::prefix('/tasks')->group(function (){
+
+        Route::get ('/', [TaskController::class, 'index'])->name('tasks.index');
+
+        Route::get('/{task}', [TaskController::class, 'show'])->name('tasks.show');
+
+        Route::post('/',[TaskController::class,'store'])->name('tasks.store');
+
+        Route::patch('/{task}', [TaskController::class,'update'])->name('tasks.update');
+
+        Route::delete('/{task}',[TaskController::class,'delete'])->name('tasks.delete');
     });
 
 });

@@ -19,6 +19,9 @@ class ClientIndexResourceItem extends JsonResource
             'first_name' => $this->resource->firts_name,
             'last_name' => $this->resource->last_name,
             'middle_name' => $this->resource->middle_name,
+            'phones' => $this->resource->getAllPhones(),
+            'emails' => $this->resource->getALLEmails(),
+            'cards_active'=>$this->resource->cardsActive
         ];
     }
 }

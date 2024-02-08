@@ -23,7 +23,7 @@ class ClientRequest extends FormRequest
             'telegram'    => 'string|sometimes',
             'phone'       => 'integer',
             'phone_comment' => 'string',
-            'email'         => 'string|required',
+            'email'         => 'string',
             'address'       => 'string',
             'country_code'  => 'string',
             'cite'          => 'string',
